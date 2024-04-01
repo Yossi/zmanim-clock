@@ -1,0 +1,11 @@
+
+__pycache__/
+
+*.toml
+
+*.service
+
+settings.py
+
+venv/
+
