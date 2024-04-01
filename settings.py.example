@@ -1,0 +1,3 @@
+api_key = 'key from minutecast'
+lat_lon = 'lat.xxx, -lon.xxx'
+zipcode = 'your zipcode'

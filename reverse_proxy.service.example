@@ -1,0 +1,14 @@
+[Unit]
+Description=reverse proxy
+After=network-online.target
+
+[Service]
+Type=simple
+User=pi
+ExecStartPre=ping -c 1 -W 5 google.com
+ExecStart=/usr/bin/ssh -g -N -T -o "ServerAliveInterval 10" -o "ExitOnForwardFailure yes" -R 22222:localhost:22 -p22 you@yourserver.tld
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=default.target

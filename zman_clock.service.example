@@ -1,0 +1,14 @@
+[Unit]
+Description=Zman Clock
+After=network-online.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi
+ExecStartPre=ping -c 1 -W 5 google.com
+ExecStart=/bin/sh -c 'ls *.py | entr -n -r venv/bin/python clock.py --mouse --resolution 1920 1080 --weather'
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=default.target
