@@ -5,6 +5,7 @@ try:
 except ImportError:
     print('weather unavailable')
 import pygame
+import pygame.gfxdraw
 import pygame_textinput
 import bisect
 import zmanim
@@ -77,6 +78,37 @@ class Clock():
         self.zmanim_list_rect = pygame.Rect((0, self.ymax/50), (0, 0))
 
 
+    def drawLineWidth(self, surface, color, p1, p2, width):
+        # from https://stackoverflow.com/questions/30578068/pygame-draw-anti-aliased-thick-line
+
+        # delta vector
+        d = (p2[0] - p1[0], p2[1] - p1[1])
+
+        # distance between the points
+        dis = math.hypot(*d)
+
+        # # normalized vector
+        # n = (d[0]/dis, d[1]/dis)
+
+        # # perpendicular vector
+        # p = (-n[1], n[0])
+
+        # # scaled perpendicular vector (vector from p1 & p2 to the polygon's points)
+        # sp = (p[0]*width/2, p[1]*width/2)
+
+        sp = (-d[1]*width/(2*dis), d[0]*width/(2*dis))
+
+        # points
+        p1_1 = (p1[0] - sp[0], p1[1] - sp[1])
+        p1_2 = (p1[0] + sp[0], p1[1] + sp[1])
+        p2_1 = (p2[0] - sp[0], p2[1] - sp[1])
+        p2_2 = (p2[0] + sp[0], p2[1] + sp[1])
+
+        # draw the polygon
+        pygame.gfxdraw.aapolygon(surface, (p1_1, p1_2, p2_2, p2_1), color)
+        pygame.gfxdraw.filled_polygon(surface, (p1_1, p1_2, p2_2, p2_1), color)
+
+
     def clock(self, hour, minute):
         clock = pygame.Surface(self.clock_rect.size)
         clock.fill(self.BG_COLOR)
@@ -94,13 +126,13 @@ class Clock():
         θ = hour * math.pi/6 + minute * math.pi/360
         edge_x = radius * math.sin(θ) 
         edge_y = radius * -math.cos(θ) 
-        pygame.draw.line(clock, (0,0,0), (center_x, center_y), (center_x + edge_x*.6, center_y + edge_y*.6), 7)
+        self.drawLineWidth(clock, (0,0,0), (center_x, center_y), (center_x + edge_x*.6, center_y + edge_y*.6), 7)
         pygame.draw.circle(clock, (0,0,0), (center_x + edge_x*.6, center_y + edge_y*.6), 7/2)
         
         θ = minute * math.pi/30
         edge_x = radius * math.sin(θ) 
         edge_y = radius * -math.cos(θ) 
-        pygame.draw.line(clock, (0,0,0), (center_x, center_y), (center_x + edge_x*.75, center_y + edge_y*.75), 5)
+        self.drawLineWidth(clock, (0,0,0), (center_x, center_y), (center_x + edge_x*.75, center_y + edge_y*.75), 5)
         pygame.draw.circle(clock, (0,0,0), (center_x + edge_x*.75, center_y + edge_y*.75), 5/2)
 
         return clock
@@ -119,18 +151,18 @@ class Clock():
             θ = tick * math.pi/12
             edge_x = -radius * math.cos(θ) 
             edge_y = -radius * math.sin(θ) 
-            pygame.draw.aaline(dial, (0,0,0), (center_x + edge_x*.85, center_y + edge_y*.85), (center_x + edge_x*.98, center_y + edge_y*.98), 3) 
+            pygame.draw.aaline(dial, (0,0,0), (center_x + edge_x*.85, center_y + edge_y*.85), (center_x + edge_x*.98, center_y + edge_y*.98)) 
 
         for red_tick in (0, 3, 4, 6, 6.5, 9.5, 10.75, 12) if 6 < zman_time['hour'] < 18 else (0, 0.5, 6, 10, 11, 12):
             θ = red_tick * math.pi/12
             edge_x = -radius * math.cos(θ) 
             edge_y = -radius * math.sin(θ) 
-            pygame.draw.aaline(dial, (255,0,0), (center_x + edge_x*.90, center_y + edge_y*.90), (center_x + edge_x*.98, center_y + edge_y*.98), 5) 
+            self.drawLineWidth(dial, (255,0,0), (center_x + edge_x*.90, center_y + edge_y*.90), (center_x + edge_x*.98, center_y + edge_y*.98), 2) 
 
         θ = ((18+zman_time['hour'])%12 + zman_time['minute']/60) * math.pi/12
         edge_x = -radius * math.cos(θ)
         edge_y = -radius * math.sin(θ)
-        pygame.draw.line(dial, (0,0,0), (center_x, center_y), (center_x + edge_x*.7, center_y + edge_y*.7), 7)
+        self.drawLineWidth(dial, (0,0,0), (center_x, center_y), (center_x + edge_x*.7, center_y + edge_y*.7), 7)
         pygame.draw.circle(dial, (0,0,0), (center_x + edge_x*.7, center_y + edge_y*.7), 7/2)
 
         return dial
