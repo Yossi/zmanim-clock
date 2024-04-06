@@ -116,13 +116,14 @@ def get_times(zipcode, date):
 
         calc_times[real_time.strftime('%H:%M:%S')] = {'hour':z_hour, 'minute':z_minute}
 
-        keys = list(calc_times.keys())
-        keys.sort()
-        output = OrderedDict()
-        for key in keys:
-            output[key] = calc_times[key]
+    keys = list(calc_times.keys())
+    keys.sort()
+    output = OrderedDict()
+    for key in keys:
+        output[key] = calc_times[key]
 
     return output
+
 
 if __name__ == '__main__':
     date = datetime.datetime.today().strftime('%m/%d/%Y')
