@@ -10,7 +10,7 @@ It does that, but along the way it picked up some more features.
 
 ## Hardware List
 This list is just what I used, you should be able to stray from it as makes sense for your case.
-* Raspberry Pi Zero W and micro sd card (needs to be W for wifi)
+* Raspberry Pi Zero W (needs to be W for wifi) and micro sd card
 * Screen with HDMI input
 * HDMI cable with mini HDMI (for the Pi Zero end) or a mini HDMI adaptor
 * (optional, but quite helpful for debugging) USB to TTL cable
@@ -24,18 +24,19 @@ On your computer get [Raspberry Pi Imager](https://www.raspberrypi.com/software/
 `rpi-imager`  
 Click [Choose OS] and then on Raspberry Pi OS (other). Then choose Raspberry Pi OS Lite (32-bit).
 
-Needs 32-bit for the Pi Zero W, Zero 2 can use 64-bit. You want the Lite version, no need for all the extra bloat from a desktop environment.
+Needs 32-bit for the Pi Zero W, ~~Zero 2 can use 64-bit~~ [Tested a Zero 2 and while it does run the 64bit os, this clock doesnt work on it (error: XDG_RUNTIME_DIR is invalid or not set in the environment.). Actually needs 32bit os to work right now]. You want the Lite version, no need for all the extra bloat from a desktop environment.
 
 Then choose the sd card and write to it. You may want to click on the gear and change some settings ahead of time to save you some bother later. 
 * set hostname to whatever
 * enable ssh with password authentication for now (later this can be made to work only with keys)
 * set a password (leave username as pi. will be a hassle otherwise)
 * configure wifi (later more networks can be added)
+* configure timezone
 
 ### Move files to SD card
 These files will be going to /rootfs/home/pi/ :  
+* clock.py 
 * NotoSansHebrew.ttf  
-* pygame_clock.py  
 * requirements.txt  
 * weather.py (can skip if not doing weather)  
 * zmanim.py  
@@ -92,7 +93,8 @@ On the Pi `ssh-keygen -t rsa`, takes some time on the underpowered Pi. When it's
 ### Setup reverse proxy service
 `sudo cp reverse_proxy.service /etc/systemd/system`  
 `sudo systemctl daemon-reload`  
-`sudo systemctl enable reverse_proxy.service`
+`sudo systemctl enable reverse_proxy.service`  
+`sudo systemctl start reverse_proxy.service`
 ### Switch over to SSH through your server instead of USB to TTL
 SSH to your server. `ssh pi@localhost -p22222` You will probably want to set up passwordless login in this direction too. Follow instructions from above. My assumption here is you know what you are doing and aren't going to trip over yourself if you have some special setup. Once this is working you can go one step further and do the same thing from your local computer like this `ssh -o 'ProxyCommand=ssh -p <your port> -W localhost:22222 you@yourdomain.tld' pi@localhost`
 
@@ -103,7 +105,8 @@ SSH to your server. `ssh pi@localhost -p22222` You will probably want to set up 
 ### Setup service to start clock automatically on boot
 `sudo cp zman_clock.service /etc/systemd/system`  
 `sudo systemctl daemon-reload`  
-`sudo systemctl enable zman_clock.service`
+`sudo systemctl enable zman_clock.service`  
+`sudo systemctl start zman_clock.service`
 ## (Optional) Setup IR stuff
 If you haven't already done this while the SD card was in the computer, edit `sudo nano /boot/firmware/config.txt`  
 Add the line `dtoverlay=gpio-ir,gpio_pin=17`. Reboot.
