@@ -52,6 +52,17 @@ class Clock():
     def __init__(self, window_size=(960,540), do_weather=False, hide_mouse=False):
         self.BG_COLOR = (64,64,64) # greyish
         self.TEXT_COLOR = (0,255,0) # green
+        self.DAY_COLOR = '#FCF5E5' # off white
+        self.NIGHT_COLOR = '#546BAB' # darkish blue
+        self.CLOCK_TICK_COLOR = (0,0,0) # black
+        self.CLOCK_HOUR_COLOR = (0,0,0) # black
+        self.CLOCK_MINUTE_COLOR = (0,0,0) # black
+        self.DIAL_TICK_COLOR = (0,0,0) # black
+        self.ZMAN_TICK_COLOR = (255,0,0) # red
+        self.DIAL_HOUR_COLOR = (0,0,0) # black
+        self.CLEAR_WEATHER_COLOR = (0,255,0) # green
+        self.PRECIPITATION_COLOR = (255,0,0) # red
+        self.PIP_COLOR = (255,255,255) # white
 
         self.do_weather = do_weather
 
@@ -115,25 +126,25 @@ class Clock():
         clock.set_colorkey(self.BG_COLOR)
         center_x, center_y = clock.get_width()/2, clock.get_height()/2
         radius = center_x
-        pygame.draw.circle(clock, ('#FCF5E5'), (center_x, center_y), radius)
+        pygame.draw.circle(clock, self.DAY_COLOR, (center_x, center_y), radius)
 
         for tick in range(0, 12):
             θ = tick * math.pi/6
             edge_x = radius * math.sin(θ) 
             edge_y = radius * -math.cos(θ) 
-            pygame.draw.aaline(clock, (0,0,0), (center_x + edge_x*.8, center_y + edge_y*.8), (center_x + edge_x*.95, center_y + edge_y*.95))
+            pygame.draw.aaline(clock, self.CLOCK_TICK_COLOR, (center_x + edge_x*.8, center_y + edge_y*.8), (center_x + edge_x*.95, center_y + edge_y*.95))
         
         θ = hour * math.pi/6 + minute * math.pi/360
         edge_x = radius * math.sin(θ) 
         edge_y = radius * -math.cos(θ) 
-        self.drawLineWidth(clock, (0,0,0), (center_x, center_y), (center_x + edge_x*.6, center_y + edge_y*.6), 7)
-        pygame.draw.circle(clock, (0,0,0), (center_x + edge_x*.6, center_y + edge_y*.6), 7/2)
+        self.drawLineWidth(clock, self.CLOCK_HOUR_COLOR, (center_x, center_y), (center_x + edge_x*.6, center_y + edge_y*.6), 7) # hour
+        pygame.draw.circle(clock, self.CLOCK_HOUR_COLOR, (center_x + edge_x*.6, center_y + edge_y*.6), 7/2)
         
         θ = minute * math.pi/30
         edge_x = radius * math.sin(θ) 
         edge_y = radius * -math.cos(θ) 
-        self.drawLineWidth(clock, (0,0,0), (center_x, center_y), (center_x + edge_x*.75, center_y + edge_y*.75), 5)
-        pygame.draw.circle(clock, (0,0,0), (center_x + edge_x*.75, center_y + edge_y*.75), 5/2)
+        self.drawLineWidth(clock, self.CLOCK_MINUTE_COLOR, (center_x, center_y), (center_x + edge_x*.75, center_y + edge_y*.75), 5) # minute
+        pygame.draw.circle(clock, self.CLOCK_MINUTE_COLOR, (center_x + edge_x*.75, center_y + edge_y*.75), 5/2)
 
         return clock
 
@@ -145,25 +156,25 @@ class Clock():
         center_x, center_y = dial.get_width()/2, dial.get_height()
         radius = center_x
         center_y -= 1
-        pygame.draw.circle(dial, ('#FCF5E5' if 6 < zman_time['hour'] < 18 else '#546BAB'), (center_x, center_y), radius)
+        pygame.draw.circle(dial, (self.DAY_COLOR if 6 < zman_time['hour'] < 18 else self.NIGHT_COLOR), (center_x, center_y), radius)
 
         for tick in range(0, 13):
             θ = tick * math.pi/12
             edge_x = -radius * math.cos(θ) 
             edge_y = -radius * math.sin(θ) 
-            pygame.draw.aaline(dial, (0,0,0), (center_x + edge_x*.85, center_y + edge_y*.85), (center_x + edge_x*.98, center_y + edge_y*.98)) 
+            pygame.draw.aaline(dial, self.DIAL_TICK_COLOR, (center_x + edge_x*.85, center_y + edge_y*.85), (center_x + edge_x*.98, center_y + edge_y*.98)) 
 
         for red_tick in (0, 3, 4, 6, 6.5, 9.5, 10.75, 12) if 6 < zman_time['hour'] < 18 else (0, 0.5, 6, 10, 11, 12):
             θ = red_tick * math.pi/12
             edge_x = -radius * math.cos(θ) 
             edge_y = -radius * math.sin(θ) 
-            self.drawLineWidth(dial, (255,0,0), (center_x + edge_x*.90, center_y + edge_y*.90), (center_x + edge_x*.98, center_y + edge_y*.98), 2) 
+            self.drawLineWidth(dial, self.ZMAN_TICK_COLOR, (center_x + edge_x*.90, center_y + edge_y*.90), (center_x + edge_x*.98, center_y + edge_y*.98), 2) 
 
         θ = ((18+zman_time['hour'])%12 + zman_time['minute']/60) * math.pi/12
         edge_x = -radius * math.cos(θ)
         edge_y = -radius * math.sin(θ)
-        self.drawLineWidth(dial, (0,0,0), (center_x, center_y), (center_x + edge_x*.7, center_y + edge_y*.7), 7)
-        pygame.draw.circle(dial, (0,0,0), (center_x + edge_x*.7, center_y + edge_y*.7), 7/2)
+        self.drawLineWidth(dial, self.DIAL_HOUR_COLOR, (center_x, center_y), (center_x + edge_x*.7, center_y + edge_y*.7), 7)
+        pygame.draw.circle(dial, self.DIAL_HOUR_COLOR, (center_x + edge_x*.7, center_y + edge_y*.7), 7/2)
 
         return dial
 
@@ -176,11 +187,11 @@ class Clock():
         minute_width = self.minutecast_rect.width//120
 
         clear = pygame.Surface((minute_width-1, self.minutecast_rect.height-2))
-        clear.fill((0,255,0))
+        clear.fill(self.CLEAR_WEATHER_COLOR)
         rain = pygame.Surface((minute_width-1, self.minutecast_rect.height-2))
-        rain.fill((255,0,0))
+        rain.fill(self.PRECIPITATION_COLOR)
         dot = pygame.Surface((1, 2))
-        dot.fill((255,255,255))
+        dot.fill(self.PIP_COLOR)
         
         for x, minute in enumerate(weather_data):
             forecast = clear if minute == '.' else rain
