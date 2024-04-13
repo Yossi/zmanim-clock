@@ -165,19 +165,19 @@ class Clock():
 
         for tick in range(0, 12):
             θ = tick * math.pi/6
-            edge_x = radius * math.sin(θ) 
-            edge_y = radius * -math.cos(θ) 
+            edge_x = radius * math.sin(θ)
+            edge_y = radius * -math.cos(θ)
             pygame.draw.aaline(clock, self.CLOCK_TICK_COLOR, (center_x + edge_x*.8, center_y + edge_y*.8), (center_x + edge_x*.95, center_y + edge_y*.95))
-        
+
         θ = hour * math.pi/6 + minute * math.pi/360
-        edge_x = radius * math.sin(θ) 
-        edge_y = radius * -math.cos(θ) 
+        edge_x = radius * math.sin(θ)
+        edge_y = radius * -math.cos(θ)
         self.drawLineWidth(clock, self.CLOCK_HOUR_COLOR, (center_x, center_y), (center_x + edge_x*.6, center_y + edge_y*.6), 7) # hour
         pygame.draw.circle(clock, self.CLOCK_HOUR_COLOR, (center_x + edge_x*.6, center_y + edge_y*.6), 7/2)
-        
+
         θ = minute * math.pi/30
-        edge_x = radius * math.sin(θ) 
-        edge_y = radius * -math.cos(θ) 
+        edge_x = radius * math.sin(θ)
+        edge_y = radius * -math.cos(θ)
         self.drawLineWidth(clock, self.CLOCK_MINUTE_COLOR, (center_x, center_y), (center_x + edge_x*.75, center_y + edge_y*.75), 5) # minute
         pygame.draw.circle(clock, self.CLOCK_MINUTE_COLOR, (center_x + edge_x*.75, center_y + edge_y*.75), 5/2)
 
@@ -195,15 +195,15 @@ class Clock():
 
         for tick in range(0, 13):
             θ = tick * math.pi/12
-            edge_x = -radius * math.cos(θ) 
-            edge_y = -radius * math.sin(θ) 
-            pygame.draw.aaline(dial, self.DIAL_TICK_COLOR, (center_x + edge_x*.85, center_y + edge_y*.85), (center_x + edge_x*.98, center_y + edge_y*.98)) 
+            edge_x = -radius * math.cos(θ)
+            edge_y = -radius * math.sin(θ)
+            pygame.draw.aaline(dial, self.DIAL_TICK_COLOR, (center_x + edge_x*.85, center_y + edge_y*.85), (center_x + edge_x*.98, center_y + edge_y*.98))
 
         for red_tick in (0, 3, 4, 6, 6.5, 9.5, 10.75, 12) if 6 < zman_time['hour'] < 18 else (0, 0.5, 6, 10, 11, 12):
             θ = red_tick * math.pi/12
-            edge_x = -radius * math.cos(θ) 
-            edge_y = -radius * math.sin(θ) 
-            self.drawLineWidth(dial, self.ZMAN_TICK_COLOR, (center_x + edge_x*.90, center_y + edge_y*.90), (center_x + edge_x*.98, center_y + edge_y*.98), 2) 
+            edge_x = -radius * math.cos(θ)
+            edge_y = -radius * math.sin(θ)
+            self.drawLineWidth(dial, self.ZMAN_TICK_COLOR, (center_x + edge_x*.90, center_y + edge_y*.90), (center_x + edge_x*.98, center_y + edge_y*.98), 2)
 
         θ = ((18+zman_time['hour'])%12 + zman_time['minute']/60) * math.pi/12
         edge_x = -radius * math.cos(θ)
@@ -218,7 +218,7 @@ class Clock():
         minutecast = pygame.Surface(self.minutecast_rect.size)
         minutecast.fill(self.BG_COLOR)
         minutecast.set_colorkey(self.BG_COLOR)
-        
+
         minute_width = self.minutecast_rect.width//120
 
         clear = pygame.Surface((minute_width-1, self.minutecast_rect.height-2))
@@ -227,7 +227,7 @@ class Clock():
         rain.fill(self.PRECIPITATION_COLOR)
         dot = pygame.Surface((1, 2))
         dot.fill(self.PIP_COLOR)
-        
+
         for x, minute in enumerate(weather_data):
             forecast = clear if minute == '.' else rain
             minutecast.blit(forecast, (x*minute_width, 0))
@@ -250,7 +250,7 @@ class Clock():
         )
 
         return zmanim_text
-    
+
 
     def clock_text(self, datetime_string):
         clock_text = self.font.render(datetime_string, True, self.TEXT_COLOR, self.BG_COLOR)
@@ -274,13 +274,13 @@ class Clock():
             minutecast = self.minutecast(weather_data)
         else:
             minutecast = pygame.Surface((0,0))
-            
+
         now = datetime.datetime.now()
 
         zman_text = zmanim.chabad_org(zipcode, datetime.datetime.today().strftime('%m/%d/%Y'))
-        
+
         events = zmanim.get_events(zman_text)
-        
+
         today = dates.HebrewDate.today()
         today_zman_string = f'{parshios.getparsha_string(today, hebrew=True)} - {today:%*A - %*d %*B}'
         tomorrow = today + 1
@@ -299,14 +299,14 @@ class Clock():
         next_key_index = bisect.bisect_right(keys, now.strftime('%H:%M:%S'))
         next_time = keys[next_key_index] if next_key_index < len(keys) else keys[0]
 
-        zman_time = zman_lookup[next_time]  
+        zman_time = zman_lookup[next_time]
 
         self.screen.fill(self.BG_COLOR)
 
 
         clock = self.clock(hour=now.hour, minute=now.minute)
         zman_dial = self.zman_dial(zman_time)
-         
+
         zmanim_list = self.zmanim_list(zman_text)
 
 
@@ -315,13 +315,13 @@ class Clock():
         self.zmanim_list_rect.x = width_spacing*2 + self.clock_rect.width
         self.zman_dial_rect.x = width_spacing*3 + self.clock_rect.width + self.zmanim_list_rect.width
 
-     
+
         clock_text = self.clock_text(now.strftime("%A %m/%d/%Y, %I:%M:%S %p"))
-        self.clock_text_rect.move_ip(self.clock_rect.centerx-(self.clock_text_rect.width)/2, 
+        self.clock_text_rect.move_ip(self.clock_rect.centerx-(self.clock_text_rect.width)/2,
                                     (self.clock_rect.top - self.minutecast_rect.bottom - self.font.get_linesize())/2 + self.minutecast_rect.bottom)
 
         date_text = self.date_text(zman_string)
-        self.date_text_rect.move_ip(self.zman_dial_rect.centerx-(self.date_text_rect.width)/2, 
+        self.date_text_rect.move_ip(self.zman_dial_rect.centerx-(self.date_text_rect.width)/2,
                                    (self.zman_dial_rect.top - self.minutecast_rect.bottom - self.font.get_linesize())/2 + self.minutecast_rect.bottom)
 
 
@@ -349,7 +349,7 @@ class Clock():
 
         while self.running:
             events = pygame.event.get()
-            
+
             self.get_page_number_value(events)
 
             self.assemble()
@@ -362,6 +362,6 @@ if __name__ == '__main__':
     parser.add_argument('-w', '--weather', action='store_true', help='hit minutecast api for weather predictions')
     parser.add_argument('-m', '--mouse', action='store_true', help='hide mouse pointer')
     args = parser.parse_args()
-    
+
     c = Clock(args.resolution, args.weather, args.mouse)
     c.run()
