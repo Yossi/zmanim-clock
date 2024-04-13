@@ -66,6 +66,8 @@ class Clock():
 
         self.do_weather = do_weather
 
+        self.page_number_value = ''
+
         pygame.init()
         self.screen = pygame.display.set_mode(window_size)
         self.tickclock = pygame.time.Clock()
@@ -78,8 +80,11 @@ class Clock():
         self.bigfont = pygame.font.Font('NotoSansHebrew.ttf', int(self.ymax/2.5))
 
         self.manager = pygame_textinput.TextInputManager(validator = lambda input: set(input) <= set('0123456789'))
-        self.textinput_custom = pygame_textinput.TextInputVisualizer(manager=self.manager, font_object=self.bigfont)
-        self.textinput_custom.font_color = self.TEXT_COLOR
+        self.page_number_text = pygame_textinput.TextInputVisualizer()
+        self.page_number_text.manager=self.manager
+        self.page_number_text.font_object=self.bigfont
+        self.page_number_text.font_color = self.TEXT_COLOR
+        self.page_number_text.cursor_width = 0
 
 
         self.quarter_screen = self.xmax / 4
@@ -118,6 +123,36 @@ class Clock():
         # draw the polygon
         pygame.gfxdraw.aapolygon(surface, (p1_1, p1_2, p2_2, p2_1), color)
         pygame.gfxdraw.filled_polygon(surface, (p1_1, p1_2, p2_2, p2_1), color)
+
+
+    def get_page_number_value(self, events):
+        try:
+            self.page_number_value = int(self.page_number_text.value)
+            if not self.page_number_value:
+                self.page_number_text.value = ''
+        except ValueError:
+            self.page_number_value = ''
+
+        for event in events:
+            if event.type == pygame.QUIT:
+                self.running = False
+
+            if event.type == pygame.KEYDOWN:
+                print(event.unicode)
+
+            if event.type == pygame.KEYDOWN and event.unicode == '+':
+                if self.page_number_value:
+                    self.page_number_value += 1
+                self.page_number_text.value = str(self.page_number_value)
+
+            if event.type == pygame.KEYDOWN and event.unicode == '-':
+                if self.page_number_value:
+                    self.page_number_value -= 1
+                if not self.page_number_value:
+                    self.page_number_value = ''
+                self.page_number_text.value = str(self.page_number_value)
+
+        self.page_number_text.update(events)
 
 
     def clock(self, hour, minute):
@@ -233,7 +268,7 @@ class Clock():
         return date_text
 
 
-    def assemble(self, page=None):
+    def assemble(self):
         if self.do_weather:
             weather_data = weather.get_weather()
             minutecast = self.minutecast(weather_data)
@@ -290,16 +325,10 @@ class Clock():
                                    (self.zman_dial_rect.top - self.minutecast_rect.bottom - self.font.get_linesize())/2 + self.minutecast_rect.bottom)
 
 
-        #TODO: either make this work as self.textinput_custom or get rid of self.textinput_custom completely out in self.run()
-        #screen.blit(textinput_custom.surface, (10, 50))
-        page_text = pygame.Surface((0,0))
-        page_text_rect = pygame.Rect((0,0,0,0))
-        if page:
-            page_text = self.bigfont.render(page, True, self.TEXT_COLOR, self.BG_COLOR)
-            page_text.set_colorkey(self.BG_COLOR)
-            page_text_rect = page_text.get_rect()
-            page_text_rect.move_ip(self.xmax/2 - page_text_rect.centerx,
-                                   self.ymax - self.bigfont.get_linesize())
+        page_text = self.page_number_text.surface
+        page_text_rect = page_text.get_rect()
+        page_text_rect.move_ip(self.xmax/2 - page_text_rect.centerx,
+                               self.ymax - self.bigfont.get_linesize())
 
 
         self.screen.blits((
@@ -318,40 +347,13 @@ class Clock():
     def run(self):
         self.running = True
 
-        value = 0
         while self.running:
             events = pygame.event.get()
             
-            try:
-                value = int(self.textinput_custom.value)
-                if not value:
-                    self.textinput_custom.value = ''
-            except ValueError:
-                value = ''
+            self.get_page_number_value(events)
 
-            for event in events:
-                if event.type == pygame.QUIT:
-                    self.running = False
-
-                if event.type == pygame.KEYDOWN:
-                    print(event.unicode)
-
-                if event.type == pygame.KEYDOWN and event.unicode == '+':
-                    if value:
-                        value += 1
-                    self.textinput_custom.value = str(value)
-
-                if event.type == pygame.KEYDOWN and event.unicode == '-':
-                    if value:
-                        value -= 1
-                    if not value:
-                        value = ''
-                    self.textinput_custom.value = str(value)
-
-            self.textinput_custom.update(events)
-
-            self.assemble(self.textinput_custom.value)
-            self.tickclock.tick(1) # make this be 1/60 for an update every minute only
+            self.assemble()
+            self.tickclock.tick(5) # make this be 1/60 for an update every minute only
 
 
 if __name__ == '__main__':
