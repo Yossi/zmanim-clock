@@ -20,7 +20,7 @@ def chabad_org(zipcode, date):
 def get_events(raw_times):
     times = {}
     for key in raw_times.keys():
-        for time in ['Alot Hashachar', 'Misheyakir', 'Hanetz Hachamah', 'Latest Shema', 'Latest Shacharit', 'Chatzot Hayom', 
+        for time in ['Alot Hashachar', 'Misheyakir', 'Hanetz Hachamah', 'Latest Shema', 'Latest Shacharit', 'Chatzot Hayom',
                      'Mincha Gedolah', 'Mincha Ketanah', 'Plag Hamincha', 'Shkiah', 'Chatzot HaLailah', 'Tzeit Hakochavim', 'Ends']:
             if time in key:
                 times[time] = raw_times[key]
@@ -76,7 +76,7 @@ def get_events(raw_times):
         (16,45): plag,
         (18,00): shkiah,
         (18,30): tzeit,
-        (24,00): midnight + datetime.timedelta(days=1), 
+        (24,00): midnight + datetime.timedelta(days=1),
     }
     return events
 
