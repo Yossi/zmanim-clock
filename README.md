@@ -69,7 +69,7 @@ Connect the IR data line to pin 11 (GPIO 17). Ground to a ground pin, and VCC+ t
 For USB to TTL, connect the green wire to pin 10 (GPIO15) and the white wire to pin 8 (GPIO14). Black wire goes to a ground pin. The red wire can either power the whole Pi through one of the 5v pins (pin 2 or 4) or can be left hanging and you power the Pi through the microUSB port like normal. (DO NOT USE BOTH POWER OPTIONS AT THE SAME TIME!)
 
 ## Power on the Pi for the first time
-The Pi will do some stuff then reboot itself.  
+The Pi will do some stuff then reboot itself a couple times.  
 You will want to connect to the Pi somehow. If you are lucky, you can ssh right in. If less lucky, you might need to connect a keyboard and fiddle with it that way. 
 The best way is to use the USB to TTL cable. `sudo screen /dev/ttyUSB0 115200` will connect you directly to the Pi. (If this starts showing garbled text it might be because more then one instance is running. `sudo ./kill_screen.sh` will clear them all out so you can start fresh.)  
 You should now be in a position to `ls` the home directory on the Pi and see all the files you put there earlier.
