@@ -6,7 +6,7 @@ After=network-online.target
 User=pi
 WorkingDirectory=/home/pi
 ExecStartPre=ping -c 1 -W 5 google.com
-ExecStart=/bin/sh -c 'ls *.py | entr -n -r venv/bin/python clock.py --mouse --resolution 1920 1080 --weather'
+ExecStart=/bin/sh -c 'ls *.py | entr -n -r venv/bin/python clock.py --mouse --resolution full --weather'
 Restart=always
 RestartSec=5s
 

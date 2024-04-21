@@ -70,6 +70,9 @@ class Clock():
         self.page_number_value = ''
 
         pygame.init()
+        if window_size == 'full':
+            infoObject = pygame.display.Info()
+            window_size = (infoObject.current_w, infoObject.current_h)
         self.screen = pygame.display.set_mode(window_size)
         self.tickclock = pygame.time.Clock()
         pygame.mouse.set_visible(not hide_mouse)
