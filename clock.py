@@ -281,10 +281,16 @@ class Clock():
 
         events = zmanim.get_events(zman_text)
 
+        def parsha_string(day):
+            parsha = parshios.getparsha_string(day, hebrew=True)
+            if parsha:
+                return f'{parsha} - '
+            return ''
+
         today = dates.HebrewDate.today()
-        today_zman_string = f'{parshios.getparsha_string(today, hebrew=True)} - {today:%*A - %*d %*B}'
+        today_zman_string = f'{parsha_string(today)}{today:%*A - %*d %*B}'
         tomorrow = today + 1
-        tomorrow_zman_string = f'{parshios.getparsha_string(tomorrow, hebrew=True)} - {tomorrow:%*A - %*d %*B}'
+        tomorrow_zman_string = f'{parsha_string(tomorrow)}{tomorrow:%*A - %*d %*B}'
 
         if now.time() < events[(18,00)].time():
             zman_string = today_zman_string
