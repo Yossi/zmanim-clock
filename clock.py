@@ -22,9 +22,9 @@ translations = {'Dawn (Alot Hashachar) ': 'עלות השחר'[::-1],
                 'Sunrise (Hanetz Hachamah) ': 'הנץ החמה'[::-1],
                 'Latest Shema ': 'סוף זמן קריאת שמע'[::-1],
                 'Latest Shacharit ': 'סוף זמן תפילה'[::-1],
-# Finish Eating Chametz before
-# Sell and Burn Chametz before
-# Nullify Chametz before
+# 'Finish Eating Chametz before ': ''[::-1],
+# 'Sell and Burn Chametz before ': ''[::-1],
+# 'Nullify Chametz before ': ''[::-1],
                 'Midday (Chatzot Hayom) ': 'חצות היום'[::-1],
                 'Earliest Mincha (Mincha Gedolah) ': 'מנחה גדולה'[::-1],
                 'Mincha Ketanah (“Small Mincha”) ': 'מנחה קטנה'[::-1],
@@ -44,6 +44,7 @@ translations = {'Dawn (Alot Hashachar) ': 'עלות השחר'[::-1],
                 'Holiday/Fast Ends ': 'מוצאי יום טוב - צום נגמר'[::-1],
                 'Nightfall (Tzeit Hakochavim) ': 'צאת הכוכבים'[::-1],
                 'Nightfall (Tzeit Hakochavim) | Fast Ends ': 'צאת הכוכבים - צום נגמר'[::-1],
+                'Bedikat Chametz (Search for Chametz) ': 'בדיקת חמץ'[::-1],
                 'Midnight (Chatzot HaLailah) ': 'חצות לילה'[::-1],
                 'Shaah Zmanit (proportional hour) ': 'שעה זמנית'[::-1]
 }
