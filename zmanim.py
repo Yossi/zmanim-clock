@@ -21,7 +21,7 @@ def get_events(raw_times):
     times = {}
     for key in raw_times.keys():
         for time in ['Alot Hashachar', 'Misheyakir', 'Hanetz Hachamah', 'Latest Shema', 'Latest Shacharit', 'Chatzot Hayom',
-                     'Mincha Gedolah', 'Mincha Ketanah', 'Plag Hamincha', 'Shkiah', 'Chatzot HaLailah', 'Tzeit Hakochavim', 'Ends']:
+                     'Mincha Gedolah', 'Mincha Ketanah', 'Plag Hamincha', 'Shkiah', 'Chatzot HaLailah', 'Tzeit Hakochavim', 'Ends', 'Candle Lighting after']:
             if time in key:
                 times[time] = raw_times[key]
 
@@ -55,7 +55,7 @@ def get_events(raw_times):
     time_string = times["Shkiah"]
     shkiah = datetime.datetime.strptime(time_string, " %I:%M %p ")
 
-    time_string = times.get('Tzeit Hakochavim', times.get('Ends'))
+    time_string = times.get('Tzeit Hakochavim', times.get('Ends', times.get('Candle Lighting after')))
     tzeit = datetime.datetime.strptime(time_string, " %I:%M %p ")
 
     time_string = times["Chatzot HaLailah"]
@@ -126,11 +126,14 @@ def get_times(zipcode, date):
 
 
 if __name__ == '__main__':
-    date = datetime.datetime.today().strftime('%m/%d/%Y')
+    date = datetime.datetime.today()
+    yesterday = date - datetime.timedelta(days=1)
+    date = date.strftime('%m/%d/%Y')
+    date = yesterday.strftime('%m/%d/%Y')
     # calc_times = get_times(zipcode, date)
 
     # print(calc_times)
 
     raw_times = chabad_org(zipcode, date)
+    print(raw_times)
     events = get_events(raw_times)
-    print(events)

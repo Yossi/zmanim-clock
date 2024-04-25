@@ -280,8 +280,12 @@ class Clock():
             minutecast = pygame.Surface((0,0))
 
         now = datetime.datetime.now()
+        date = datetime.datetime.today()
+        # yesterday = date - datetime.timedelta(days=1)
+        date = date.strftime('%m/%d/%Y')
+        # date = yesterday.strftime('%m/%d/%Y')
 
-        zman_text = zmanim.chabad_org(zipcode, datetime.datetime.today().strftime('%m/%d/%Y'))
+        zman_text = zmanim.chabad_org(zipcode, date)
 
         events = zmanim.get_events(zman_text)
 
@@ -303,8 +307,7 @@ class Clock():
         elif events[(18,30)].time() < now.time():
             zman_string = tomorrow_zman_string
 
-
-        zman_lookup = zmanim.get_times(zipcode, datetime.datetime.today().strftime('%m/%d/%Y'))
+        zman_lookup = zmanim.get_times(zipcode, date)
         keys = list(zman_lookup.keys())
         next_key_index = bisect.bisect_right(keys, now.strftime('%H:%M:%S'))
         next_time = keys[next_key_index] if next_key_index < len(keys) else keys[0]
