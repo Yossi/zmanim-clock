@@ -212,8 +212,8 @@ class Clock():
         θ = ((18+zman_time['hour'])%12 + zman_time['minute']/60) * math.pi/12
         edge_x = -radius * math.cos(θ)
         edge_y = -radius * math.sin(θ)
-        self.drawLineWidth(dial, self.DIAL_HOUR_COLOR, (center_x, center_y), (center_x + edge_x*.7, center_y + edge_y*.7), 7)
-        pygame.draw.circle(dial, self.DIAL_HOUR_COLOR, (center_x + edge_x*.7, center_y + edge_y*.7), 7/2)
+        self.drawLineWidth(dial, self.DIAL_HOUR_COLOR, (center_x, center_y), (center_x + edge_x*.8, center_y + edge_y*.8), 7)
+        pygame.draw.circle(dial, self.DIAL_HOUR_COLOR, (center_x + edge_x*.8, center_y + edge_y*.8), 7/2)
 
         return dial
 
