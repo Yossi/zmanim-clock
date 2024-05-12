@@ -195,7 +195,7 @@ class Clock():
         center_x, center_y = dial.get_width()/2, dial.get_height()
         radius = center_x
         center_y -= 1
-        pygame.draw.circle(dial, (self.DAY_COLOR if 6 < zman_time['hour'] < 18 else self.NIGHT_COLOR), (center_x, center_y), radius)
+        pygame.draw.circle(dial, (self.DAY_COLOR if 6 <= zman_time['hour'] < 18 else self.NIGHT_COLOR), (center_x, center_y), radius)
 
         for tick in range(0, 13):
             θ = tick * math.pi/12
