@@ -343,16 +343,20 @@ class Clock():
         page_text_rect.move_ip(self.xmax/2 - page_text_rect.centerx,
                                self.ymax - self.bigfont.get_linesize())
 
-
-        self.screen.blits((
-            (clock, self.clock_rect),
-            (zman_dial, self.zman_dial_rect),
-            (minutecast, self.minutecast_rect),
-            (clock_text, self.clock_text_rect),
-            (date_text, self.date_text_rect),
-            (zmanim_list, self.zmanim_list_rect),
-            (page_text, page_text_rect)
-        ))
+        if not self.page_number_value:
+            self.screen.blits((
+                (clock, self.clock_rect),
+                (zman_dial, self.zman_dial_rect),
+                (minutecast, self.minutecast_rect),
+                (clock_text, self.clock_text_rect),
+                (date_text, self.date_text_rect),
+                (zmanim_list, self.zmanim_list_rect),
+                
+            ))
+        else:
+            self.screen.blits((
+                (page_text, page_text_rect),
+            ))
 
         pygame.display.flip()
 
