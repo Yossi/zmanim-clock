@@ -163,7 +163,7 @@ class Clock():
     def clock(self, hour, minute):
         clock = pygame.Surface(self.clock_rect.size)
         clock.fill(self.BG_COLOR)
-        clock.set_colorkey(self.BG_COLOR)
+        
         center_x, center_y = clock.get_width()/2, clock.get_height()/2
         radius = center_x
         pygame.draw.circle(clock, self.DAY_COLOR, (center_x, center_y), radius)
@@ -192,7 +192,6 @@ class Clock():
     def zman_dial(self, zman_time):
         dial = pygame.Surface(self.zman_dial_rect.size)
         dial.fill(self.BG_COLOR)
-        dial.set_colorkey(self.BG_COLOR)
         center_x, center_y = dial.get_width()/2, dial.get_height()
         radius = center_x
         center_y -= 1
@@ -222,7 +221,6 @@ class Clock():
     def minutecast(self, weather_data):
         minutecast = pygame.Surface(self.minutecast_rect.size)
         minutecast.fill(self.BG_COLOR)
-        minutecast.set_colorkey(self.BG_COLOR)
 
         minute_width = self.minutecast_rect.width//120
 
@@ -249,7 +247,6 @@ class Clock():
         self.zmanim_list_rect.update(self.zmanim_list_rect.topleft, (zman_width, zman_height))
         zmanim_text = pygame.Surface(self.zmanim_list_rect.size)
         zmanim_text.fill(self.BG_COLOR)
-        zmanim_text.set_colorkey(self.BG_COLOR)
         zmanim_text.blits(
             ((line, ((zman_width-line.get_rect().width)/2, self.font.get_linesize()*n)) for n, line in enumerate(zmanim_list))
         )
@@ -259,7 +256,6 @@ class Clock():
 
     def clock_text(self, datetime_string):
         clock_text = self.font.render(datetime_string, True, self.TEXT_COLOR, self.BG_COLOR)
-        clock_text.set_colorkey(self.BG_COLOR)
         self.clock_text_rect = clock_text.get_rect()
 
         return clock_text
@@ -267,7 +263,6 @@ class Clock():
 
     def date_text(self, zman_string):
         date_text = self.font.render(zman_string[::-1], True, self.TEXT_COLOR, self.BG_COLOR)
-        date_text.set_colorkey(self.BG_COLOR)
         self.date_text_rect = date_text.get_rect()
 
         return date_text
@@ -316,6 +311,7 @@ class Clock():
         zman_time = zman_lookup[next_time]
 
         self.screen.fill(self.BG_COLOR)
+        # self.screen.fill((0,0,0)) # debuging
 
 
         clock = self.clock(hour=now.hour, minute=now.minute)
