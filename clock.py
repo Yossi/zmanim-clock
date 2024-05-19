@@ -53,8 +53,8 @@ class Clock():
     def __init__(self, window_size=(960,540), do_weather=False, hide_mouse=False):
         self.BG_COLOR = (64,64,64) # greyish
         self.TEXT_COLOR = (0,255,0) # green
-        self.DAY_COLOR = '#FCF5E5' # off white
-        self.NIGHT_COLOR = '#546BAB' # darkish blue
+        self.DAY_COLOR = (252,245,229) # off white
+        self.NIGHT_COLOR = (124,153,253) # darkish blue
         self.CLOCK_TICK_COLOR = (0,0,0) # black
         self.CLOCK_HOUR_COLOR = (0,0,0) # black
         self.CLOCK_MINUTE_COLOR = (0,0,0) # black
