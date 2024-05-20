@@ -166,10 +166,11 @@ class Clock():
     def clock(self, hour, minute, second):
         clock = pygame.Surface(self.clock_rect.size)
         clock.fill(self.BG_COLOR)
-        
-        center_x, center_y = clock.get_width()/2, clock.get_height()/2
+        center_x, center_y = (clock.get_width()-1)//2, (clock.get_height()-1)//2
         radius = center_x
-        pygame.draw.circle(clock, self.DAY_COLOR, (center_x, center_y), radius)
+        # pygame.draw.circle(clock, self.DAY_COLOR, (center_x, center_y), radius)
+        pygame.gfxdraw.aacircle(     clock, center_x, center_y, radius, self.DAY_COLOR)
+        pygame.gfxdraw.filled_circle(clock, center_x, center_y, radius, self.DAY_COLOR)
 
         for tick in range(0, 12):
             θ = tick * math.pi/6
