@@ -201,10 +201,12 @@ class Clock():
     def zman_dial(self, zman_time):
         dial = pygame.Surface(self.zman_dial_rect.size)
         dial.fill(self.BG_COLOR)
-        center_x, center_y = dial.get_width()/2, dial.get_height()
+        center_x, center_y = (dial.get_width()-1)//2, dial.get_height()
         radius = center_x
         center_y -= 1
-        pygame.draw.circle(dial, (self.DAY_COLOR if 6 <= zman_time['hour'] < 18 else self.NIGHT_COLOR), (center_x, center_y), radius)
+        # pygame.draw.circle(dial, (self.DAY_COLOR if 6 <= zman_time['hour'] < 18 else self.NIGHT_COLOR), (center_x, center_y), radius)
+        pygame.gfxdraw.aacircle(     dial, center_x, center_y, radius, (self.DAY_COLOR if 6 <= zman_time['hour'] < 18 else self.NIGHT_COLOR))
+        pygame.gfxdraw.filled_circle(dial, center_x, center_y, radius, (self.DAY_COLOR if 6 <= zman_time['hour'] < 18 else self.NIGHT_COLOR))
 
         for tick in range(0, 13):
             θ = tick * math.pi/12
@@ -222,7 +224,6 @@ class Clock():
         edge_x = -radius * math.cos(θ)
         edge_y = -radius * math.sin(θ)
         self.drawLineWidth(dial, self.DIAL_HOUR_COLOR, (center_x, center_y), (center_x + edge_x*.8, center_y + edge_y*.8), 7)
-        pygame.draw.circle(dial, self.DIAL_HOUR_COLOR, (center_x + edge_x*.8, center_y + edge_y*.8), 7/2)
 
         return dial
 
