@@ -58,6 +58,7 @@ class Clock():
         self.CLOCK_TICK_COLOR = (0,0,0) # black
         self.CLOCK_HOUR_COLOR = (0,0,0) # black
         self.CLOCK_MINUTE_COLOR = (0,0,0) # black
+        self.CLOCK_SECOND_COLOR = (255,0,0) # red
         self.DIAL_TICK_COLOR = (0,0,0) # black
         self.ZMAN_TICK_COLOR = (255,0,0) # red
         self.DIAL_HOUR_COLOR = (0,0,0) # black
@@ -97,6 +98,8 @@ class Clock():
         self.zman_dial_rect = pygame.Rect((self.quarter_screen*2, self.quarter_screen*.2), (self.quarter_screen*2*.8, self.quarter_screen*.8))
         self.minutecast_rect = pygame.Rect((0, 0), (self.xmax, self.ymax/50))
         self.zmanim_list_rect = pygame.Rect((0, self.ymax/50), (0, 0))
+
+        self.seconds_modifier = 0
 
 
     def drawLineWidth(self, surface, color, p1, p2, width):
@@ -160,7 +163,7 @@ class Clock():
         self.page_number_text.update(events)
 
 
-    def clock(self, hour, minute):
+    def clock(self, hour, minute, second):
         clock = pygame.Surface(self.clock_rect.size)
         clock.fill(self.BG_COLOR)
         
@@ -179,12 +182,17 @@ class Clock():
         edge_y = radius * -math.cos(θ)
         self.drawLineWidth(clock, self.CLOCK_HOUR_COLOR, (center_x, center_y), (center_x + edge_x*.6, center_y + edge_y*.6), 7) # hour
         pygame.draw.circle(clock, self.CLOCK_HOUR_COLOR, (center_x + edge_x*.6, center_y + edge_y*.6), 7/2)
-
-        θ = minute * math.pi/30
+        if not second % 5:
+            self.seconds_modifier = second * math.pi/1800
+        θ = minute * math.pi/30 + self.seconds_modifier
         edge_x = radius * math.sin(θ)
         edge_y = radius * -math.cos(θ)
         self.drawLineWidth(clock, self.CLOCK_MINUTE_COLOR, (center_x, center_y), (center_x + edge_x*.75, center_y + edge_y*.75), 5) # minute
         pygame.draw.circle(clock, self.CLOCK_MINUTE_COLOR, (center_x + edge_x*.75, center_y + edge_y*.75), 5/2)
+        θ = second * math.pi/30
+        edge_x = radius * math.sin(θ)
+        edge_y = radius * -math.cos(θ)
+        self.drawLineWidth(clock, self.CLOCK_SECOND_COLOR, (center_x, center_y), (center_x + edge_x*.75, center_y + edge_y*.75), 1) # second
 
         return clock
 
@@ -314,7 +322,7 @@ class Clock():
         # self.screen.fill((0,0,0)) # debuging
 
 
-        clock = self.clock(hour=now.hour, minute=now.minute)
+        clock = self.clock(hour=now.hour, minute=now.minute, second=now.second)
         zman_dial = self.zman_dial(zman_time)
 
         zmanim_list = self.zmanim_list(zman_text)
