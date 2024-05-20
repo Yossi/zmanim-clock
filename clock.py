@@ -181,14 +181,14 @@ class Clock():
         edge_x = radius * math.sin(θ)
         edge_y = radius * -math.cos(θ)
         self.drawLineWidth(clock, self.CLOCK_HOUR_COLOR, (center_x, center_y), (center_x + edge_x*.6, center_y + edge_y*.6), 7) # hour
-        pygame.draw.circle(clock, self.CLOCK_HOUR_COLOR, (center_x + edge_x*.6, center_y + edge_y*.6), 7/2)
+        
         if not second % 5:
             self.seconds_modifier = second * math.pi/1800
         θ = minute * math.pi/30 + self.seconds_modifier
         edge_x = radius * math.sin(θ)
         edge_y = radius * -math.cos(θ)
         self.drawLineWidth(clock, self.CLOCK_MINUTE_COLOR, (center_x, center_y), (center_x + edge_x*.75, center_y + edge_y*.75), 5) # minute
-        pygame.draw.circle(clock, self.CLOCK_MINUTE_COLOR, (center_x + edge_x*.75, center_y + edge_y*.75), 5/2)
+
         θ = second * math.pi/30
         edge_x = radius * math.sin(θ)
         edge_y = radius * -math.cos(θ)
