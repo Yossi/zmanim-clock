@@ -214,7 +214,7 @@ class Clock():
             edge_y = -radius * math.sin(θ)
             pygame.draw.aaline(dial, self.DIAL_TICK_COLOR, (center_x + edge_x*.85, center_y + edge_y*.85), (center_x + edge_x*.98, center_y + edge_y*.98))
 
-        for red_tick in (0, 3, 4, 6, 6.5, 9.5, 10.75, 12) if 6 < zman_time['hour'] < 18 else (0, 0.5, 6, 10, 11, 12):
+        for red_tick in (0, 3, 4, 6, 6.5, 9.5, 10.75, 12) if 6 <= zman_time['hour'] < 18 else (0, 0.5, 6, 10, 11, 12):
             θ = red_tick * math.pi/12
             edge_x = -radius * math.cos(θ)
             edge_y = -radius * math.sin(θ)
