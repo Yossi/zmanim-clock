@@ -60,7 +60,8 @@ def get_events(raw_times):
 
     time_string = times["Chatzot HaLailah"]
     midnight = datetime.datetime.strptime(time_string, " %I:%M %p ")
-
+    if midnight.hour > 12: # probably only ever going to be 23 or 0
+        midnight -= datetime.timedelta(days=1)
 
     events = {
         # where the clock should be pointing at each listed zman
