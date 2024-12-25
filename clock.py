@@ -29,15 +29,15 @@ translations = {'Dawn (Alot Hashachar) ': 'עלות השחר'[::-1],
                 'Earliest Mincha (Mincha Gedolah) ': 'מנחה גדולה'[::-1],
                 'Mincha Ketanah (“Small Mincha”) ': 'מנחה קטנה'[::-1],
                 'Plag Hamincha (“Half of Mincha”) ': 'פלג המנחה'[::-1],
-                'Plag Hamincha (“Half of Mincha”) | Earliest time to kindle Chanukah Menorah ': 'פלג המנחה - מנורה'[::-1],
+                'Plag Hamincha (“Half of Mincha”)  | Earliest time to kindle Chanukah Menorah ': 'פלג המנחה - מנורה'[::-1],
                 'Candle Lighting ': 'הדלקת נרות'[::-1],
                 'Candle Lighting | Fast Begins ': 'הדלקת נרות - צום מתחיל'[::-1],
                 'Sunset (Shkiah) ': 'שקיעת החמה'[::-1],
                 'Sunset (Shkiah) | Fast Begins ': 'שקיעת החמה - צום מתחיל'[::-1],
-                'Sunset (Shkiah) | Earliest time to kindle Chanukah Menorah ': 'שקיעת החמה - מנורה'[::-1],
+                'Sunset (Shkiah)  | Earliest time to kindle Chanukah Menorah ': 'שקיעת החמה - מנורה'[::-1],
                 'Candle Lighting after ': 'הדלקת נרות אחרי'[::-1],
                 'Shabbat Ends ': 'מוצאי שבת'[::-1],
-                'Shabbat Ends | Earliest time to kindle Chanukah Menorah ': 'מוצאי שבת - מנורה'[::-1],
+                'Shabbat Ends  | Earliest time to kindle Chanukah Menorah ': 'מוצאי שבת - מנורה'[::-1],
                 'Holiday Ends ': 'מוצאי יום טוב'[::-1],
                 'Shabbat/Holiday Ends ': 'מוצאי שבת ויום טוב'[::-1],
                 'Shabbat/Holiday/Fast Ends ': 'מוצאי שבת ויום טוב - צום נגמר'[::-1],
@@ -182,7 +182,7 @@ class Clock():
         edge_x = radius * math.sin(θ)
         edge_y = radius * -math.cos(θ)
         self.drawLineWidth(clock, self.CLOCK_HOUR_COLOR, (center_x, center_y), (center_x + edge_x*.6, center_y + edge_y*.6), 7) # hour
-        
+
         if not second % 5:
             self.seconds_modifier = second * math.pi/1800
         θ = minute * math.pi/30 + self.seconds_modifier
@@ -358,7 +358,7 @@ class Clock():
                 (clock_text, self.clock_text_rect),
                 (date_text, self.date_text_rect),
                 (zmanim_list, self.zmanim_list_rect),
-                
+
             ))
         else:
             self.screen.blits((
