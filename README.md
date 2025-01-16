@@ -80,6 +80,8 @@ If it isn't, use `sudo raspi-config`
 * Choose your country.
 * Enter your wifi network name (SSID) and password
 * Hit < Finish >
+
+Sometimes when this doesn't want to work, or if you need to add a wifi network that is not in range, use `sudo nmtui`
 ### Make sure the time is right
 `date`  
 If it has wrong timezone, use `sudo raspi-config`
