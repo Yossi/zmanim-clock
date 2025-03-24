@@ -98,7 +98,7 @@ On the Pi `ssh-keygen -t rsa`, takes some time on the underpowered Pi. When it's
 `sudo systemctl enable reverse_proxy.service`  
 `sudo systemctl start reverse_proxy.service`
 ### Switch over to SSH through your server instead of USB to TTL
-SSH to your server. `ssh pi@localhost -p22222` You will probably want to set up passwordless login in this direction too. Follow instructions from above. My assumption here is you know what you are doing and aren't going to trip over yourself if you have some special setup. Once this is working you can go one step further and do the same thing from your local computer like this `ssh -o 'ProxyCommand=ssh -p <your port> -W localhost:22222 you@yourdomain.tld' pi@localhost`
+SSH to your server. Then `ssh pi@localhost -p22222` You will probably want to set up passwordless login in this direction too. Follow instructions from above. My assumption here is you know what you are doing and aren't going to trip over yourself if you have some special setup. Once this is working you can go one step further and do the same thing from your local computer like this `ssh -o 'ProxyCommand=ssh -p <your port> -W localhost:22222 you@yourdomain.tld' pi@localhost`
 
 ## Get zmanim clock working
 `sudo apt -y install libsdl2-2.0-0 libsdl2-ttf-2.0-0 libegl-dev entr`  
