@@ -12,6 +12,7 @@ import zmanim
 from pyluach import dates, parshios
 from settings import zipcode
 import argparse
+import dateutil.parser
 
 
 
@@ -50,7 +51,8 @@ translations = {'Dawn (Alot Hashachar) ': 'עלות השחר'[::-1],
 }
 
 class Clock():
-    def __init__(self, window_size=(960,540), do_weather=False, hide_mouse=False):
+    def __init__(self, window_size=(960,540), do_weather=False, hide_mouse=False, debug_datetime=None):
+        self.debug_datetime = dateutil.parser.parse(debug_datetime) if debug_datetime else None
         self.BG_COLOR = (64,64,64) # greyish
         self.TEXT_COLOR = (0,255,0) # green
         self.DAY_COLOR = (252,245,229) # off white
@@ -285,8 +287,12 @@ class Clock():
         else:
             minutecast = pygame.Surface((0,0))
 
-        now = datetime.datetime.now()
-        date = datetime.datetime.today()
+        if self.debug_datetime:
+            now = self.debug_datetime
+            date = self.debug_datetime.date()
+        else:
+            now = datetime.datetime.now()
+            date = datetime.datetime.today()
         # yesterday = date - datetime.timedelta(days=1)
         date = date.strftime('%m/%d/%Y')
         # date = yesterday.strftime('%m/%d/%Y')
@@ -385,7 +391,8 @@ if __name__ == '__main__':
     parser.add_argument('-r', '--resolution', nargs=2, type=int, default=(960,540))
     parser.add_argument('-w', '--weather', action='store_true', help='hit minutecast api for weather predictions')
     parser.add_argument('-m', '--mouse', action='store_true', help='hide mouse pointer')
+    parser.add_argument('-d', '--debug_datetime', type=str, help='datetime string to use for debugging')
     args = parser.parse_args()
 
-    c = Clock(args.resolution, args.weather, args.mouse)
+    c = Clock(args.resolution, args.weather, args.mouse, args.debug_datetime)
     c.run()
