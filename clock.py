@@ -253,7 +253,7 @@ class Clock():
 
 
     def zmanim_list(self, zman_text):
-        zmanim_list = [self.font.render(f'{zman.split(" (")[0]} - {translations.get(zman, zman).strip()} - {time.strip()}'.replace('  ', ' '), True, self.TEXT_COLOR, self.BG_COLOR) for zman, time in zman_text.items()]
+        zmanim_list = [self.font.render(f'{zman.split(" (")[0]} - {translations.get(zman, "").strip()} - {time.strip()}'.replace('  ', ' '), True, self.TEXT_COLOR, self.BG_COLOR) for zman, time in zman_text.items()]
         zman_width = max(zmanim_list, key=lambda x: x.get_rect().width).get_rect().width
         zman_height = self.font.get_linesize() * len(zmanim_list)
         self.zmanim_list_rect.update(self.zmanim_list_rect.topleft, (zman_width, zman_height))
