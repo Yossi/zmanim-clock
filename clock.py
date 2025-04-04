@@ -83,8 +83,10 @@ class Clock():
         self.xmax = pygame.display.Info().current_w
         self.ymax = pygame.display.Info().current_h
 
-        self.font = pygame.font.Font('NotoSansHebrew.ttf', int(self.ymax/40))
-        self.bigfont = pygame.font.Font('NotoSansHebrew.ttf', int(self.ymax/1.4))
+        # self.font = pygame.font.Font('NotoSansHebrew.ttf', int(self.ymax/40))
+        # self.bigfont = pygame.font.Font('NotoSansHebrew.ttf', int(self.ymax/1.4))
+        self.font = pygame.font.Font('NotoSansHebrew.ttf', int(self.xmax/71))
+        self.bigfont = pygame.font.Font('NotoSansHebrew.ttf', int(self.xmax/2.5))
 
         self.manager = pygame_textinput.TextInputManager(validator = lambda input: set(input) <= set('0123456789'))
         self.page_number_text = pygame_textinput.TextInputVisualizer()
