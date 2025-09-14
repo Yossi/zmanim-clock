@@ -1,9 +1,5 @@
 import datetime
 import math
-try:
-    import weather
-except ImportError:
-    print('weather unavailable')
 import pygame
 import pygame.gfxdraw
 import pygame_textinput

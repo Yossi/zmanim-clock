@@ -4,7 +4,6 @@ It does that, but along the way it picked up some more features.
 * regular clock with date
 * parsha, day of the week, hebrew date
 * list of times from chabad.org
-* (optional) two hour weather forcast using minutecast (requires [api key](https://developer.accuweather.com/minutecast-api/apis))
 * (optional) page number display
     * (even more optional) IR remote control of page numbers
 
@@ -38,13 +37,12 @@ These files will be going to /rootfs/home/pi/ :
 * clock.py 
 * NotoSansHebrew.ttf  
 * requirements.txt  
-* weather.py (can skip if not doing weather)  
 * zmanim.py  
 
-* Edit settings.py.example to contain the zipcode to be used for chabad.org (required) and if you will be using minutecast put in your api key and your gps coordinates.  
+* Edit settings.py.example to contain the zipcode to be used for chabad.org (required).  
 Save as settings.py & copy to card.
 
-* Edit zman_clock.service.example to have the resolution of the target screen. Remove "--weather" from the end of the long line if you will not be using minutecast.  
+* Edit zman_clock.service.example to have the resolution of the target screen.  
 Save as zman_clock.service & copy to card.
 
 * (optional) If you have a server you can already ssh into, you can make the Pi do a reverse proxy to it and it becomes MUCH easier to work with it. Don't need any port forwarding on networks you dont fully control (like at shul). If you want to go down this route, edit reverse_proxy.service.example line 9 at the end. This will make it so you can ssh to your server and then `ssh pi@localhost -p22222` to reach the Pi wherever it may be.  
@@ -81,7 +79,7 @@ If it isn't, use `sudo raspi-config`
 * Enter your wifi network name (SSID) and password
 * Hit < Finish >
 
-Sometimes when this doesn't want to work, or if you need to add a wifi network that is not in range, use `sudo nmtui`
+Sometimes when this doesn't want to work, or if you need to add a wifi network that is not currently in range, use `sudo nmtui`
 ### Make sure the time is right
 `date`  
 If it has wrong timezone, use `sudo raspi-config`
