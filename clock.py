@@ -47,7 +47,7 @@ translations = {'Dawn (Alot Hashachar) ': 'עלות השחר'[::-1],
 }
 
 class Clock():
-    def __init__(self, window_size=(960,540), do_weather=False, hide_mouse=False, debug_datetime=None):
+    def __init__(self, window_size=(960,540), hide_mouse=False, debug_datetime=None):
         self.debug_datetime = dateutil.parser.parse(debug_datetime) if debug_datetime else None
         self.BG_COLOR = (64,64,64) # greyish
         self.TEXT_COLOR = (0,255,0) # green
@@ -60,11 +60,6 @@ class Clock():
         self.DIAL_TICK_COLOR = (0,0,0) # black
         self.ZMAN_TICK_COLOR = (255,0,0) # red
         self.DIAL_HOUR_COLOR = (0,0,0) # black
-        self.CLEAR_WEATHER_COLOR = (0,255,0) # green
-        self.PRECIPITATION_COLOR = (255,0,0) # red
-        self.PIP_COLOR = (255,255,255) # white
-
-        self.do_weather = do_weather
 
         self.page_number_value = ''
 
@@ -228,28 +223,6 @@ class Clock():
         return dial
 
 
-    def minutecast(self, weather_data):
-        minutecast = pygame.Surface(self.minutecast_rect.size)
-        minutecast.fill(self.BG_COLOR)
-
-        minute_width = self.minutecast_rect.width//120
-
-        clear = pygame.Surface((minute_width-1, self.minutecast_rect.height-2))
-        clear.fill(self.CLEAR_WEATHER_COLOR)
-        rain = pygame.Surface((minute_width-1, self.minutecast_rect.height-2))
-        rain.fill(self.PRECIPITATION_COLOR)
-        dot = pygame.Surface((1, 2))
-        dot.fill(self.PIP_COLOR)
-
-        for x, minute in enumerate(weather_data):
-            forecast = clear if minute == '.' else rain
-            minutecast.blit(forecast, (x*minute_width, 0))
-            if not (x+1) % 15:
-                minutecast.blit(dot, ((x+1)*minute_width-1, self.minutecast_rect.height-2))
-
-        return minutecast
-
-
     def zmanim_list(self, zman_text):
         zmanim_list = [self.font.render(f'{zman.split(" (")[0]} - {translations.get(zman, "").strip()} - {time.strip()}'.replace('  ', ' ').replace('- -', '-'), True, self.TEXT_COLOR, self.BG_COLOR) for zman, time in zman_text.items()]
         zman_width = max(zmanim_list, key=lambda x: x.get_rect().width).get_rect().width
@@ -279,12 +252,6 @@ class Clock():
 
 
     def assemble(self):
-        if self.do_weather:
-            weather_data = weather.get_weather()
-            minutecast = self.minutecast(weather_data)
-        else:
-            minutecast = pygame.Surface((0,0))
-
         if self.debug_datetime:
             now = self.debug_datetime
             date = self.debug_datetime.date()
@@ -358,7 +325,6 @@ class Clock():
             self.screen.blits((
                 (clock, self.clock_rect),
                 (zman_dial, self.zman_dial_rect),
-                (minutecast, self.minutecast_rect),
                 (clock_text, self.clock_text_rect),
                 (date_text, self.date_text_rect),
                 (zmanim_list, self.zmanim_list_rect),
@@ -387,10 +353,9 @@ class Clock():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-r', '--resolution', nargs=2, type=int, default=(960,540))
-    parser.add_argument('-w', '--weather', action='store_true', help='hit minutecast api for weather predictions')
     parser.add_argument('-m', '--mouse', action='store_true', help='hide mouse pointer')
     parser.add_argument('-d', '--debug_datetime', type=str, help='datetime string to use for debugging')
     args = parser.parse_args()
 
-    c = Clock(args.resolution, args.weather, args.mouse, args.debug_datetime)
+    c = Clock(args.resolution, args.mouse, args.debug_datetime)
     c.run()
