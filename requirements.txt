@@ -1,4 +1,4 @@
-feedparser==6.0.12
+feedparser==6.0.14
 pygame==2.6.1
 pygame-textinput==1.0.1
 pyluach==2.3.0
